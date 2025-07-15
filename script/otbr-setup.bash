@@ -95,6 +95,7 @@ readonly OTBR_THREAD_1_4_OPTIONS=(
     "-DOTBR_TREL=ON"
     "-DOTBR_NAT64=ON"
     "-DOTBR_DHCP6_PD=ON"
+    "-DOT_BORDER_ROUTING_DHCP6_PD_CLIENT=ON"
 )
 
 build_options=(
