@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  Copyright (c) 2021, The OpenThread Authors.
+#  Copyright (c) 2024, The OpenThread Authors.
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -29,16 +29,17 @@
 
 set -euxo pipefail
 
-cd ot-commissioner
+cat <<EOF >/etc/systemd/system/otbr-agent-restart-workaround.service
+[Unit]
+Description=Restart otbr-agent as a workaround
+After=otbr-agent.service
 
-pip3 install -r tools/commissioner_thci/requirements.txt
-./script/bootstrap.sh || true
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl restart otbr-agent.service
 
-mkdir -p build
-cd build
+[Install]
+WantedBy=multi-user.target
+EOF
 
-cmake -GNinja -DCMAKE_INSTALL_PREFIX=/usr -DOT_COMM_REFERENCE_DEVICE=ON ..
-ninja -j10
-ninja install
-
-sudo systemctl enable commissionerd
+systemctl enable otbr-agent-restart-workaround.service
