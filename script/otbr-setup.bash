@@ -67,8 +67,6 @@ readonly OTBR_THREAD_1_3_OPTIONS=(
     "-DOTBR_DUA_ROUTING=ON"
     "-DOT_DUA=ON"
     "-DOT_MLR=ON"
-    "-DOTBR_DNSSD_DISCOVERY_PROXY=ON"
-    "-DOTBR_SRP_ADVERTISING_PROXY=ON"
     "-DOT_BORDER_ROUTING=ON"
     "-DOT_SRP_CLIENT=ON"
     "-DOT_DNS_CLIENT=ON"
@@ -85,8 +83,6 @@ readonly OTBR_THREAD_1_4_OPTIONS=(
     "-DOTBR_DUA_ROUTING=ON"
     "-DOT_DUA=ON"
     "-DOT_MLR=ON"
-    "-DOTBR_DNSSD_DISCOVERY_PROXY=ON"
-    "-DOTBR_SRP_ADVERTISING_PROXY=ON"
     "-DOT_BORDER_ROUTING=ON"
     "-DOT_SRP_CLIENT=ON"
     "-DOT_DNS_CLIENT=ON"
@@ -100,7 +96,6 @@ readonly OTBR_THREAD_1_4_OPTIONS=(
 
 build_options=(
     "INFRA_IF_NAME=eth0"
-    "OTBR_MDNS=mDNSResponder"
     "RELEASE=1"
     "REFERENCE_DEVICE=1"
     "BACKBONE_ROUTER=1"
@@ -111,6 +106,7 @@ build_options=(
 )
 
 if [ "${REFERENCE_RELEASE_TYPE?}" = "1.2" ]; then
+    build_options+=('OTBR_MDNS=mDNSResponder')
     readonly LOCAL_OPTIONS_COMMON=(
         'BORDER_ROUTING=0'
         'NAT64=0'
@@ -140,6 +136,7 @@ if [ "${REFERENCE_RELEASE_TYPE?}" = "1.2" ]; then
             ;;
     esac
 elif [ "${REFERENCE_RELEASE_TYPE?}" = "1.3" ]; then
+    build_options+=('OTBR_MDNS=openthread')
     readonly LOCAL_OPTIONS_COMMON=(
         'BORDER_ROUTING=1'
         'NAT64=0'
@@ -169,6 +166,7 @@ elif [ "${REFERENCE_RELEASE_TYPE?}" = "1.3" ]; then
             ;;
     esac
 elif [ "${REFERENCE_RELEASE_TYPE?}" = "1.4" ]; then
+    build_options+=('OTBR_MDNS=openthread')
     readonly LOCAL_OPTIONS_COMMON=(
         'BORDER_ROUTING=1'
         'NAT64=1'
