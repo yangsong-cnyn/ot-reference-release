@@ -213,7 +213,7 @@ chown -R pi:pi /home/pi/repo
 cd /home/pi/repo/ot-br-posix
 apt-get update
 apt-get install -y --no-install-recommends git python3-pip
-su -c "DOCKER=1 ${build_options[*]} script/bootstrap" pi
+sh -c "DOCKER=1 ${build_options[*]} script/bootstrap"
 
 rm -rf /home/pi/repo/ot-br-posix/third_party/openthread/repo
 cp -rp /home/pi/repo/openthread /home/pi/repo/ot-br-posix/third_party/openthread/repo
@@ -232,7 +232,7 @@ pip3 install zeroconf
 apt-get install -y --no-install-recommends libgirepository1.0-dev
 pip3 install dbus-python==1.3.2
 
-su -c "${build_options[*]} script/setup" pi
+sh -c "${build_options[*]} script/setup"
 
 case "$REFERENCE_RELEASE_TYPE" in
     "1.2" | "1.3" | "1.4")
@@ -248,8 +248,8 @@ if [ "${REFERENCE_PLATFORM?}" = "ncs" ]; then
 
     apt-get install -y --no-install-recommends vim
 
-    wget https://project-downloads.drogon.net/wiringpi-latest.deb
-    sudo dpkg -i wiringpi-latest.deb
+    wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
+    sudo dpkg -i ./wiringpi_3.16_armhf.deb
 
     cat <<EOF >/etc/systemd/system/otbr-agent-restart-workaround.service
 [Unit]
