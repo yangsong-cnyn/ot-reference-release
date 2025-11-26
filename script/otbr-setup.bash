@@ -91,6 +91,7 @@ readonly OTBR_THREAD_1_4_OPTIONS=(
     "-DOTBR_TREL=ON"
     "-DOTBR_NAT64=ON"
     "-DOTBR_DHCP6_PD=ON"
+    "-DOT_BORDER_ROUTING_DHCP6_PD_CLIENT=ON"
 )
 
 build_options=(
@@ -248,21 +249,6 @@ if [ "${REFERENCE_PLATFORM?}" = "ncs" ]; then
 
     wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
     sudo dpkg -i ./wiringpi_3.16_armhf.deb
-
-    cat <<EOF >/etc/systemd/system/otbr-agent-restart-workaround.service
-[Unit]
-Description=Restart otbr-agent as a workaround
-After=otbr-agent.service
-
-[Service]
-Type=oneshot
-ExecStart=/bin/systemctl restart otbr-agent.service
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-    systemctl enable otbr-agent-restart-workaround.service
 
     # update testharness-discovery script to fix autodiscovery issue
     if [ "$REFERENCE_RELEASE_TYPE" = "1.2" ]; then
