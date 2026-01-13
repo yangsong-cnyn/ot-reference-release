@@ -254,16 +254,6 @@ if [ "${REFERENCE_PLATFORM?}" = "ncs" ]; then
     sudo dpkg -i "./${WIRINGPI_DEB}"
     rm "./${WIRINGPI_DEB}"
 
-    # TODO: Confirm if restarting otbr-agent via rc.local is required for the dongle.
-    if [ ! -f /etc/rc.local ]; then
-        echo '#!/bin/sh -e' > /etc/rc.local
-        echo 'exit 0' >> /etc/rc.local
-        chmod +x /etc/rc.local
-    fi
-    sed -i '/exit 0/d' /etc/rc.local
-    grep -qxF 'sudo systemctl restart otbr-agent.service' /etc/rc.local || echo 'sudo systemctl restart otbr-agent.service' >>/etc/rc.local
-    echo 'exit 0' >>/etc/rc.local
-
     # update testharness-discovery script to fix autodiscovery issue
     if [ "$REFERENCE_RELEASE_TYPE" = "1.2" ]; then
         sed -i 's/OpenThread_BR/OTNCS_BR/g' /usr/sbin/testharness-discovery
